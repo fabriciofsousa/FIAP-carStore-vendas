@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Optional;
 import java.util.UUID;
 
+import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
 import org.junit.jupiter.api.*;
@@ -47,29 +48,29 @@ class VendasControllerTest {
     @Nested
     class CadastroVendas {
 
-        @Test
+        @Test //@Disabled
         void deveCriarVendaValida() throws Exception {
             UUID id = UUID.randomUUID();
             Vendas venda = Vendas.builder()
                     .id(id)
                     .clienteId(UUID.randomUUID())
                     .veiculoId(UUID.randomUUID())
-                    .status(Vendas.Status.INICIADA)
+                    .status(Status.INICIADA)
                     .build();
 
-            when(criarVendasUseCase.execute(any(Vendas.class))).thenReturn(venda);
+            when(criarVendasUseCase.execute(any(), any(), any())).thenReturn(venda);
 
             mockMvc.perform(post("/vendas")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(asJsonString(venda)))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(id.toString()))
-                    .andExpect(jsonPath("$.status").value(Vendas.Status.INICIADA.name()));
+                    .andExpect(jsonPath("$.status").value(Status.INICIADA.name()));
         }
 
-        @Test
+        @Test //@Disabled
         void naoDeveCriarVendaComCamposInvalidos() throws Exception {
-            when(criarVendasUseCase.execute(any(Vendas.class)))
+            when(criarVendasUseCase.execute(any(), any(), any()))
                     .thenThrow(new IllegalArgumentException("Campos inválidos"));
 
             mockMvc.perform(post("/vendas")
@@ -90,7 +91,7 @@ class VendasControllerTest {
                     .id(id)
                     .clienteId(UUID.randomUUID())
                     .veiculoId(UUID.randomUUID())
-                    .status(Vendas.Status.CONCLUIDA)
+                    .status(Status.CONCLUIDA)
                     .build();
 
             when(alterarVendasUseCase.execute(eq(id), any())).thenReturn(atualizado);
@@ -99,7 +100,7 @@ class VendasControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .queryParam("status", "CONCLUIDA"))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.status").value(Vendas.Status.CONCLUIDA.name()));
+                    .andExpect(jsonPath("$.status").value(Status.CONCLUIDA.name()));
         }
 
         @Test
@@ -123,7 +124,7 @@ class VendasControllerTest {
                     .id(id)
                     .clienteId(UUID.randomUUID())
                     .veiculoId(UUID.randomUUID())
-                    .status(Vendas.Status.INICIADA)
+                    .status(Status.INICIADA)
                     .build();
 
             when(obterVendasPorIdUseCase.execute(id)).thenReturn(Optional.of(venda));
@@ -131,7 +132,7 @@ class VendasControllerTest {
             mockMvc.perform(get("/vendas/{id}", id))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(id.toString()))
-                    .andExpect(jsonPath("$.status").value(Vendas.Status.INICIADA.name()));
+                    .andExpect(jsonPath("$.status").value(Status.INICIADA.name()));
         }
     }
 

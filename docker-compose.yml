@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: carstore-mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - carstore-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  vendas-app:
+    build: .
+    image: fabriciofsousa/fiap-carstore-vendas:latest
+    container_name: fiap-carstore-vendas
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/carstore
+    ports:
+      - "8083:8080"
+    networks:
+      - carstore-network
+
+networks:
+  carstore-network:
+    driver: bridge

@@ -1,6 +1,6 @@
 package br.com.fiap.vendas.infra.database.entity;
 
-public enum StatusVendas {
+public enum Status {
     INICIADA,
     CONCLUIDA,
     CANCELADA

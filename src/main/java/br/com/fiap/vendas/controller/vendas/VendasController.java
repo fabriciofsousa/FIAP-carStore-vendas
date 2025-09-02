@@ -1,7 +1,7 @@
 package br.com.fiap.vendas.controller.vendas;
 
-import br.com.fiap.vendas.controller.vendas.dto.VendasRequestDTO;
-import br.com.fiap.vendas.controller.vendas.dto.VendasResponseDTO;
+import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
+import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasResponseDTO;
 import br.com.fiap.vendas.controller.vendas.mapper.VendasMapper;
 import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
@@ -33,9 +33,14 @@ public class VendasController {
     }
 
     @PostMapping
-    public ResponseEntity<?> criarVenda(@RequestBody Vendas venda) {
+    public ResponseEntity<?> criarVenda(@RequestBody VendasRequestDTO vendasRequestDTO) {
         try {
-            Vendas novaVenda = criarVendasUseCase.execute(venda);
+            Vendas venda = VendasMapper.toDomain(vendasRequestDTO);
+            Vendas novaVenda = criarVendasUseCase.execute(
+                    venda,
+                    vendasRequestDTO.valorPago(),
+                    vendasRequestDTO.formaPagamento()
+            );
             return ResponseEntity.ok(VendasMapper.toResponse(novaVenda));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -1,67 +1,41 @@
-# Módulo de Veículos – Regras de Negócio
+# 🛒 FIAP CarStore - Vendas
 
----
+O módulo **Vendas** é responsável pelo gerenciamento das transações
+realizadas na plataforma CarStore.\
+Ele depende dos outros serviços já estarem ativos, como **Veículo** e
+**Clientes**, para garantir o correto funcionamento.
 
-## 1. Cadastro de Veículo
+⚠️ **Atenção:** este projeto deve ser o **último** a ser iniciado, pois
+depende que os demais estejam rodando antes.
 
-**Use Case:** `CriarVeiculoUseCase`  
-**Validações:**
-- Marca, modelo e cor não podem ser nulos ou vazios.
-- Ano entre 1900 e o ano atual.
-- Preço e quilometragem não podem ser negativos.
-- Status padrão: `DISPONIVEL` se não informado.
+------------------------------------------------------------------------
 
----
+## 🚀 Para rodar localmente
 
-## 2. Atualização de Veículo
+1.  **Certifique-se de que os módulos `veiculo` e `clientes` já estão em
+    execução.**
 
-**Use Case:** `AlterarVeiculoUseCase` (PATCH)  
-**Validações:**
-- ID obrigatório e veículo deve existir.
-- Apenas campos informados são atualizados.
-- Status deve ser válido (`DISPONIVEL`, `RESERVADO`, `VENDIDO`).
-- Data de atualização atualizada automaticamente.
+2.  Faça o **pull da imagem** do projeto `vendas`:
 
----
+``` bash
+docker pull fabriciofsousa/fiap-carstore-vendas:latest
+```
 
-## 3. Deleção de Veículo
+3.  Suba o container do projeto `vendas`:
 
-**Use Case:** `DeletarVeiculoUseCase`  
-**Validações:**
-- ID obrigatório e veículo deve existir.
-- (Opcional) Impedir deleção de veículos vendidos.
+``` bash
+docker compose up -d
+```
 
----
+Isso irá criar:\
+- Um container da aplicação **vendas**.\
+- Uma instância de **MongoDB** para persistência dos dados de vendas.
 
-## 4. Obtenção de Veículo por ID
+------------------------------------------------------------------------
 
-**Use Case:** `ObterVeiculoPorIdUseCase`  
-**Validações:**
-- ID obrigatório.
-- Se não existir, lança `VeiculoNaoEncontradoException`.
+## 🌐 Rede compartilhada
 
----
-
-## 5. Listagem de Veículos por Status
-
-**Use Case:** `ObterVeiculosPorStatusUseCase`  
-**Validações:**
-- Status obrigatório e válido (`DISPONIVEL`, `RESERVADO`, `VENDIDO`).
-- Retorna lista ordenada por preço (mais barato → mais caro).
-
----
-
-## 6. Listagem de Todos os Veículos
-
-**Use Case:** `ObterVeiculoUseCase`  
-**Validações:**
-- Sempre retorna lista (mesmo que vazia).
-
----
-
-## 7. Enum `StatusVeiculo`
-
-- `DISPONIVEL` → à venda
-- `RESERVADO` → reservado
-- `VENDIDO` → vendido
-
+Assim como os outros módulos, este projeto utiliza a rede externa
+**carstore-network**.\
+Dessa forma, todos os serviços conseguem se comunicar e compartilhar
+dados de forma integrada.

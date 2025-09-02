@@ -1,7 +1,9 @@
 package br.com.fiap.vendas.domain;
 
-import br.com.fiap.vendas.infra.database.entity.StatusVendas;
-import jakarta.validation.constraints.*;
+import br.com.fiap.vendas.infra.database.entity.Status;
+import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,19 +25,30 @@ public class Vendas {
     private UUID veiculoId;
     private UUID clienteId;
 
+    @NotNull
+    @Positive
+    private BigDecimal valorTotal;
+
+    @Builder.Default
+    private List<Pagamento> pagamentos = new ArrayList<>();
+
     @Builder.Default
     private Status status = Status.INICIADA;
 
     @Builder.Default
     private LocalDateTime dataVenda = LocalDateTime.now();
 
-    public enum Status {
-        INICIADA,
-        CONCLUIDA,
-        CANCELADA;
+    @Data
+    @AllArgsConstructor
+    public static class Pagamento {
+        private BigDecimal valor;
+        private FormaPagamento formaPagamento;
+        private LocalDateTime dataPagamento;
+    }
 
-        public static Status getStatusByName(Status status) {
-            return Status.valueOf(status.name());
-        }
+    public BigDecimal getTotalPago() {
+        return pagamentos.stream()
+                .map(Pagamento::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

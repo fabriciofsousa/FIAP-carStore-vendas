@@ -31,7 +31,7 @@ public class VendasEntity {
     private UUID veiculoId;
 
     @Enumerated(EnumType.STRING)
-    private StatusVendas status;
+    private Status status;
 
     @Column(name = "data_venda", updatable = false)
     private LocalDateTime dataVenda = LocalDateTime.now();

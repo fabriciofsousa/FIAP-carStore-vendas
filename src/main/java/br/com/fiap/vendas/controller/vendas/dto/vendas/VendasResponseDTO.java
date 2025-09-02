@@ -1,4 +1,4 @@
-package br.com.fiap.vendas.controller.vendas.dto;
+package br.com.fiap.vendas.controller.vendas.dto.vendas;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

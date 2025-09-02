@@ -2,7 +2,7 @@ package br.com.fiap.vendas.infra.database.adapter;
 
 import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.gateway.VendasGateway;
-import br.com.fiap.vendas.infra.database.entity.StatusVendas;
+import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.infra.database.entity.VendasEntity;
 import br.com.fiap.vendas.infra.database.repository.VendasRepository;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class VendasGatewayImpl implements VendasGateway {
 
     @Override
     public List<Vendas> buscarVendidosOrdenadosPorPreco() {
-        return vendasRepository.findByStatusOrderByDataVendaAsc(StatusVendas.CONCLUIDA)
+        return vendasRepository.findByStatusOrderByDataVendaAsc(Status.CONCLUIDA)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
@@ -47,7 +47,7 @@ public class VendasGatewayImpl implements VendasGateway {
         entity.setId(venda.getId());
         entity.setClienteId(venda.getClienteId());
         entity.setVeiculoId(venda.getVeiculoId());
-        entity.setStatus(StatusVendas.valueOf(venda.getStatus().name()));
+        entity.setStatus(Status.valueOf(venda.getStatus().name()));
         entity.setDataVenda(venda.getDataVenda());
         return entity;
     }
@@ -57,7 +57,7 @@ public class VendasGatewayImpl implements VendasGateway {
                 .id(entity.getId())
                 .clienteId(entity.getClienteId())
                 .veiculoId(entity.getVeiculoId())
-                .status(Vendas.Status.valueOf(entity.getStatus().name()))
+                .status(Status.valueOf(entity.getStatus().name()))
                 .dataVenda(entity.getDataVenda())
                 .build();
     }

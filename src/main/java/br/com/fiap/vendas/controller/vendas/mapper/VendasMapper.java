@@ -1,8 +1,9 @@
 package br.com.fiap.vendas.controller.vendas.mapper;
 
-import br.com.fiap.vendas.controller.vendas.dto.VendasRequestDTO;
-import br.com.fiap.vendas.controller.vendas.dto.VendasResponseDTO;
+import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
+import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasResponseDTO;
 import br.com.fiap.vendas.domain.Vendas;
+import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.infra.database.entity.VendasEntity;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public class VendasMapper {
                 .id(null)
                 .clienteId(dto.clienteId())
                 .veiculoId(dto.veiculoId())
-                .status(Vendas.Status.INICIADA)
+                .status(Status.INICIADA)
                 .dataVenda(LocalDateTime.now())
                 .build();
     }
@@ -24,7 +25,7 @@ public class VendasMapper {
                 .id(entity.getId())
                 .clienteId(entity.getClienteId())
                 .veiculoId(entity.getVeiculoId())
-                .status(Vendas.Status.valueOf(entity.getStatus().name()))
+                .status(Status.valueOf(entity.getStatus().name()))
                 .dataVenda(entity.getDataVenda())
                 .build();
     }
