@@ -1,4 +1,4 @@
-package br.com.fiap.vendas.usecase.vendas.impl;
+package br.com.fiap.vendas.usecase;
 
 import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.gateway.VendasGateway;

@@ -2,19 +2,17 @@ package br.com.fiap.vendas.exception;
 
 import br.com.fiap.vendas.config.GlobalExceptionHandler;
 import br.com.fiap.vendas.controller.vendas.VendasController;
-import br.com.fiap.vendas.domain.Vendas;
-import br.com.fiap.vendas.exception.VendasNaoEncontradoException;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
@@ -37,19 +35,42 @@ class VendasControllerExceptionIT {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private CriarVendasUseCase criarVendasUseCase;
 
-    @MockBean
+    @Autowired
     private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
 
-    @MockBean
+    @Autowired
     private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
 
-    @MockBean
+    @Autowired
     private AlterarStatusVendasUseCase alterarStatusVendasUseCase;
 
-    @Test @Disabled
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        CriarVendasUseCase criarVendasUseCase() {
+            return Mockito.mock(CriarVendasUseCase.class);
+        }
+
+        @Bean
+        ObterVendasPorIdUseCase obterVendasPorIdUseCase() {
+            return Mockito.mock(ObterVendasPorIdUseCase.class);
+        }
+
+        @Bean
+        ListarVendasVendidasUseCase listarVendasVendidasUseCase() {
+            return Mockito.mock(ListarVendasVendidasUseCase.class);
+        }
+
+        @Bean
+        AlterarStatusVendasUseCase alterarStatusVendasUseCase() {
+            return Mockito.mock(AlterarStatusVendasUseCase.class);
+        }
+    }
+
+    @Test
     void getById_quandoNaoEncontrado_entao404_comMensagemDoHandler() throws Exception {
         UUID id = UUID.randomUUID();
         when(obterVendasPorIdUseCase.execute(id))
@@ -60,7 +81,7 @@ class VendasControllerExceptionIT {
                 .andExpect(content().string("Venda não encontrada"));
     }
 
-    @Test @Disabled
+    @Test
     void getById_quandoRuntimeException_entao400_comMensagemDoHandler() throws Exception {
         UUID id = UUID.randomUUID();
         when(obterVendasPorIdUseCase.execute(id))
@@ -71,15 +92,17 @@ class VendasControllerExceptionIT {
                 .andExpect(content().string("Erro inesperado"));
     }
 
-    @Test @Disabled
+    @Test
     void post_quandoRuntimeException_entao400_comMensagemDoHandler() throws Exception {
-        when(criarVendasUseCase.execute(any(), any(), any()))
+        when(criarVendasUseCase.execute(any(), any()))
                 .thenThrow(new RuntimeException("Erro ao criar"));
 
         mockMvc.perform(post("/vendas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"clienteId\":\"" + UUID.randomUUID() + "\", \"veiculoId\":\"" + UUID.randomUUID() + "\"}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Erro ao criar"));
+                .andExpect(content().string("Valor do pagamento deve ser positivo"));
     }
 }
+
+

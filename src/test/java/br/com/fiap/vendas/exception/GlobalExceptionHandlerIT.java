@@ -1,70 +1,61 @@
-package br.com.fiap.vendas.config;
+package br.com.fiap.vendas.exception;
 
-import br.com.fiap.vendas.controller.vendas.VendasController;
 import br.com.fiap.vendas.exception.VendasNaoEncontradoException;
-import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
-import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
-import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = VendasController.class)
-@Import(GlobalExceptionHandler.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 @TestPropertySource(properties = "veiculo.api.url=http://localhost:8081")
 class GlobalExceptionHandlerIT {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private CriarVendasUseCase criarVendasUseCase;
-
-    @MockBean
+    @MockitoBean
     private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
 
-    @MockBean
-    private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    private UUID vendaId;
 
-    @MockBean
-    private AlterarStatusVendasUseCase alterarStatusVendasUseCase;
-
-    @Test @Disabled
-    void quandoVendasNaoEncontrado_entao404() throws Exception {
-        UUID id = UUID.randomUUID();
-        Mockito.when(obterVendasPorIdUseCase.execute(id))
-                .thenThrow(new VendasNaoEncontradoException("Venda não encontrada"));
-
-        mockMvc.perform(get("/vendas/{id}", id)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Venda não encontrada"));
+    @BeforeEach
+    void setup() {
+        vendaId = UUID.randomUUID();
+        Mockito.reset(obterVendasPorIdUseCase);
     }
 
-    @Test @Disabled
-    void quandoRuntimeException_entao400() throws Exception {
-        UUID id = UUID.randomUUID();
-        Mockito.when(obterVendasPorIdUseCase.execute(id))
+    @Test
+    void deveRetornarNotFoundQuandoVendaNaoEncontrada() throws Exception {
+        when(obterVendasPorIdUseCase.execute(vendaId))
+                .thenThrow(new VendasNaoEncontradoException("Venda não encontrada: " + vendaId));
+
+        mockMvc.perform(get("/vendas/{id}", vendaId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Venda não encontrada: " + vendaId));
+    }
+
+    @Test
+    void deveRetornarBadRequestQuandoRuntimeException() throws Exception {
+        when(obterVendasPorIdUseCase.execute(vendaId))
                 .thenThrow(new RuntimeException("Erro inesperado"));
 
-        mockMvc.perform(get("/vendas/{id}", id)
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/vendas/{id}", vendaId)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Erro inesperado"));
     }

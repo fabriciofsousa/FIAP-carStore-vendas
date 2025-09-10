@@ -12,4 +12,6 @@ public interface VendasGateway {
     Optional<Vendas> buscarPorId(UUID id);
 
     List<Vendas> buscarVendidosOrdenadosPorPreco();
+
+    Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId);
 }

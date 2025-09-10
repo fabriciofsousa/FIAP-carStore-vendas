@@ -1,40 +1,34 @@
 package br.com.fiap.vendas.infra.database.entity;
 
-import jakarta.persistence.*;
+import br.com.fiap.vendas.domain.Vendas;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
-@Entity
-@Table(name = "vendas")
+@Document(collection = "vendas")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendasEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id_venda")
     private UUID id;
-
-    @Column(name = "id_cliente", nullable = false)
     private UUID clienteId;
-
-    @Column(name = "id_veiculo", nullable = false)
     private UUID veiculoId;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @Column(name = "data_venda", updatable = false)
+    private BigDecimal valorTotal;
+    @Builder.Default
+    private Status status = Status.INICIADA;
     private LocalDateTime dataVenda = LocalDateTime.now();
+
+    @Builder.Default
+    private List<Vendas.Pagamento> pagamentos = new ArrayList<>();
 }
 
 

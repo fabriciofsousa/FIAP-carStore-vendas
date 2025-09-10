@@ -41,14 +41,20 @@ public class VendasGatewayImpl implements VendasGateway {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId) {
+        return vendasRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
+    }
+
 
     private VendasEntity toEntity(Vendas venda) {
         VendasEntity entity = new VendasEntity();
-        entity.setId(venda.getId());
+        entity.setId(venda.getId() == null ? UUID.randomUUID() : venda.getId());
         entity.setClienteId(venda.getClienteId());
         entity.setVeiculoId(venda.getVeiculoId());
         entity.setStatus(Status.valueOf(venda.getStatus().name()));
         entity.setDataVenda(venda.getDataVenda());
+        entity.setPagamentos(venda.getPagamentos());
         return entity;
     }
 

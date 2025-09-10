@@ -6,5 +6,5 @@ import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
 import java.math.BigDecimal;
 
 public interface CriarVendasUseCase {
-    Vendas execute (Vendas venda, BigDecimal valorPago, FormaPagamento formaPagamento);
+    Vendas execute (Vendas venda, Vendas.Pagamento pagamento);
 }

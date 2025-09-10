@@ -40,6 +40,8 @@ public class Vendas {
 
     @Data
     @AllArgsConstructor
+    @Builder
+    @NoArgsConstructor
     public static class Pagamento {
         private BigDecimal valor;
         private FormaPagamento formaPagamento;

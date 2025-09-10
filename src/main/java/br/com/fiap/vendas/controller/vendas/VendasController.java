@@ -36,11 +36,10 @@ public class VendasController {
     public ResponseEntity<?> criarVenda(@RequestBody VendasRequestDTO vendasRequestDTO) {
         try {
             Vendas venda = VendasMapper.toDomain(vendasRequestDTO);
-            Vendas novaVenda = criarVendasUseCase.execute(
-                    venda,
-                    vendasRequestDTO.valorPago(),
-                    vendasRequestDTO.formaPagamento()
-            );
+            Vendas novaVenda = criarVendasUseCase.execute(venda, Vendas.Pagamento.builder()
+                    .valor(vendasRequestDTO.valorPago())
+                    .formaPagamento(vendasRequestDTO.formaPagamento())
+                    .build());
             return ResponseEntity.ok(VendasMapper.toResponse(novaVenda));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
