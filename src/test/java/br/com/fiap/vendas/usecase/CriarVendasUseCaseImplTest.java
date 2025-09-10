@@ -9,6 +9,7 @@ import br.com.fiap.vendas.gateway.VendasGateway;
 import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.usecase.vendas.ObterAtualizarVeiculoUseCase;
+import br.com.fiap.vendas.usecase.vendas.ObterClienteUseCase;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
@@ -28,6 +29,9 @@ class CriarVendasUseCaseImplTest {
     @Mock
     private ObterAtualizarVeiculoUseCase obterAtualizarVeiculoUseCase;
 
+    @Mock
+    private ObterClienteUseCase obterClienteUseCase;
+
     private CriarVendasUseCaseImpl useCase;
 
     private AutoCloseable mocks;
@@ -37,7 +41,7 @@ class CriarVendasUseCaseImplTest {
         mocks = MockitoAnnotations.openMocks(this);
         Vendas vendaMock = mock(Vendas.class);
         when(vendaMock.getTotalPago()).thenReturn(BigDecimal.ZERO);
-        useCase = new CriarVendasUseCaseImpl(vendasGateway, obterAtualizarVeiculoUseCase, clienteGateway, obterClienteUseCase);
+        useCase = new CriarVendasUseCaseImpl(vendasGateway, obterAtualizarVeiculoUseCase, obterClienteUseCase);
     }
 
     @AfterEach
