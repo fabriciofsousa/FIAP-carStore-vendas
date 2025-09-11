@@ -27,8 +27,8 @@ docker pull fabriciofsousa/fiap-carstore-vendas:latest
 docker compose up -d
 ```
 
-Isso irá criar:\
-- Um container da aplicação **vendas**.\
+Isso irá criar:
+- Um container da aplicação **vendas**.
 - Uma instância de **MongoDB** para persistência dos dados de vendas.
 
 ------------------------------------------------------------------------
