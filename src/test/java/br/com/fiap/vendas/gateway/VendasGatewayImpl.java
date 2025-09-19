@@ -7,7 +7,6 @@ import br.com.fiap.vendas.infra.database.entity.VendasEntity;
 import br.com.fiap.vendas.infra.database.repository.VendasRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -96,7 +95,7 @@ class VendasGatewayImplTest {
         when(vendasRepository.findByStatusOrderByDataVendaAsc(Status.CONCLUIDA))
                 .thenReturn(List.of(entity1, entity2));
 
-        List<Vendas> result = vendasGateway.buscarVendidosOrdenadosPorPreco();
+        List<Vendas> result = vendasGateway.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA);
 
         assertEquals(2, result.size());
         verify(vendasRepository, times(1))

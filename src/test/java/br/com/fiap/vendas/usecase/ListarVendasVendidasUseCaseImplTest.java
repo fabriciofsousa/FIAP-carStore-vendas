@@ -2,6 +2,7 @@ package br.com.fiap.vendas.usecase;
 
 import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.gateway.VendasGateway;
+import br.com.fiap.vendas.infra.database.entity.Status;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
@@ -45,26 +46,26 @@ class ListarVendasVendidasUseCaseImplTest {
         venda2.setValorTotal(BigDecimal.valueOf(10000));
 
         List<Vendas> vendasMock = Arrays.asList(venda2, venda1); // já ordenadas por preço desc
-        when(vendasGateway.buscarVendidosOrdenadosPorPreco()).thenReturn(vendasMock);
+        when(vendasGateway.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA)).thenReturn(vendasMock);
 
         // Execução
-        List<Vendas> resultado = useCase.buscarVendidosOrdenadosPorPreco();
+        List<Vendas> resultado = useCase.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA);
 
         // Verificações
         assertThat(resultado).isNotNull()
                 .hasSize(2)
                 .containsExactly(venda2, venda1);
 
-        verify(vendasGateway, times(1)).buscarVendidosOrdenadosPorPreco();
+        verify(vendasGateway, times(1)).buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA);
     }
 
     @Test
     void deveRetornarListaVaziaQuandoNaoExistiremVendas() {
-        when(vendasGateway.buscarVendidosOrdenadosPorPreco()).thenReturn(List.of());
+        when(vendasGateway.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA)).thenReturn(List.of());
 
-        List<Vendas> resultado = useCase.buscarVendidosOrdenadosPorPreco();
+        List<Vendas> resultado = useCase.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA);
 
         assertThat(resultado).isEmpty();
-        verify(vendasGateway, times(1)).buscarVendidosOrdenadosPorPreco();
+        verify(vendasGateway, times(1)).buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA);
     }
 }

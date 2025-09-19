@@ -4,6 +4,7 @@ import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
 import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasResponseDTO;
 import br.com.fiap.vendas.controller.vendas.mapper.VendasMapper;
 import br.com.fiap.vendas.domain.Vendas;
+import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
@@ -53,9 +54,9 @@ public class VendasController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/vendidas")
-    public ResponseEntity<List<VendasResponseDTO>> listarVendasVendidas() {
-        List<Vendas> vendidas = listarVendasVendidasUseCase.buscarVendidosOrdenadosPorPreco();
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<VendasResponseDTO>> listarVendasVendidas(@PathVariable String status) {
+        List<Vendas> vendidas = listarVendasVendidasUseCase.buscarVendidosOrdenadosPorPreco(Status.validateStatus(status));
         List<VendasResponseDTO> response = vendidas.stream()
                 .map(VendasMapper::toResponse)
                 .toList();

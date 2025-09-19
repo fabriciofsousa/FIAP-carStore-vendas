@@ -34,8 +34,8 @@ public class VendasGatewayImpl implements VendasGateway {
     }
 
     @Override
-    public List<Vendas> buscarVendidosOrdenadosPorPreco() {
-        return vendasRepository.findByStatusOrderByDataVendaAsc(Status.CONCLUIDA)
+    public List<Vendas> buscarVendidosOrdenadosPorPreco(Status status) {
+        return vendasRepository.findByStatusOrderByDataVendaAsc(status)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());

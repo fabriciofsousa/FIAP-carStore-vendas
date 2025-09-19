@@ -14,4 +14,4 @@ COPY --from=build /app/target/*.jar vendasApp.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "veiculoApp.jar"]
+CMD ["java", "-jar", "vendasApp.jar"]

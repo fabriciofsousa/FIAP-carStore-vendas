@@ -1,7 +1,6 @@
 package br.com.fiap.vendas.controller.vendas;
 
 import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
-import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasResponseDTO;
 import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.domain.Vendas;
@@ -119,11 +118,11 @@ public class VendasControllerIT extends BaseIntegrationTest {
         venda2.setId(UUID.randomUUID());
         venda2.setStatus(Status.CONCLUIDA);
 
-        when(listarVendasVendidasUseCase.buscarVendidosOrdenadosPorPreco()).thenReturn(List.of(venda1, venda2));
+        when(listarVendasVendidasUseCase.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA)).thenReturn(List.of(venda1, venda2));
 
         given()
                 .when()
-                .get("/vendas/vendidas")
+                .get("/vendas/status/CONCLUIDA")
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2))
