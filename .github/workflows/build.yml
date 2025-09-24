@@ -136,3 +136,18 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fabriciofsousa_FIAP-carStore-vendas
+      - name: Fetch SonarCloud Quality Gate
+        run: |
+          echo "=== SonarCloud Quality Gate Status ==="
+          response=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: \
+            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=fabriciofsousa_FIAP-carStore-vendas")
+          
+          status=$(echo $response | jq -r '.projectStatus.status')
+          echo "Quality Gate: $status"
+          
+          if [ "$status" = "ERROR" ]; then
+            echo "❌ Build failed due to Sonar Quality Gate"
+            exit 1
+          else
+            echo "✅ Build passed Sonar Quality Gate"
+          fi
