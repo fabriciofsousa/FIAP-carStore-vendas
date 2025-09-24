@@ -1,6 +1,7 @@
 package br.com.fiap.vendas.gateway;
 
 import br.com.fiap.vendas.domain.Vendas;
+import br.com.fiap.vendas.infra.database.entity.Status;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +12,7 @@ public interface VendasGateway {
 
     Optional<Vendas> buscarPorId(UUID id);
 
-    List<Vendas> buscarVendidosOrdenadosPorPreco();
+    List<Vendas> buscarVendidosOrdenadosPorPreco(Status status);
 
     Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId);
 }

@@ -23,11 +23,22 @@ services:
         condition: service_healthy
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/carstore
+      veiculo.api.url: http://veiculos-app:8080
+      cliente.api.url: http://clientes-app:8080
     ports:
       - "8083:8080"
     networks:
       - carstore-network
+    healthcheck:
+      test: [ "CMD-SHELL", "\
+        curl -f http://clientes-app:8080/actuator/health && \
+        curl -f http://veiculos-app:8080/actuator/health && \
+        curl -f http://localhost:8080/actuator/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
 
 networks:
   carstore-network:
-    driver: bridge
+    external: true

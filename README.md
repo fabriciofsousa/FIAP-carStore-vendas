@@ -39,3 +39,11 @@ Assim como os outros módulos, este projeto utiliza a rede externa
 **carstore-network**.\
 Dessa forma, todos os serviços conseguem se comunicar e compartilhar
 dados de forma integrada.
+
+------------------------------------------------------------------------
+
+
+## 🔗 Endpoints
+
+- Swagger Vendas: [http://localhost:8083/swagger-ui/index.html](http://localhost:8083/swagger-ui/index.html)
+
