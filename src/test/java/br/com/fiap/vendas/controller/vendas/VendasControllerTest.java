@@ -1,14 +1,13 @@
 package br.com.fiap.vendas.controller.vendas;
 
 import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
-import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasResponseDTO;
 import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
-import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
+import br.com.fiap.vendas.usecase.vendas.ListarVendasUseCase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
@@ -32,7 +31,7 @@ class VendasControllerTest {
 
     @Mock private CriarVendasUseCase criarVendasUseCase;
     @Mock private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
-    @Mock private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    @Mock private ListarVendasUseCase listarVendasVendidasUseCase;
     @Mock private AlterarStatusVendasUseCase alterarVendasUseCase;
 
     @InjectMocks private VendasController vendasController;

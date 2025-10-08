@@ -2,18 +2,15 @@ package br.com.fiap.vendas.exception;
 
 import br.com.fiap.vendas.config.GlobalExceptionHandler;
 import br.com.fiap.vendas.controller.vendas.VendasController;
-import br.com.fiap.vendas.exception.VendasNaoEncontradoException;
 import br.com.fiap.vendas.usecase.vendas.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
@@ -27,7 +24,7 @@ class GlobalExceptionHandlerTest {
 
     @Mock private CriarVendasUseCase criarVendasUseCase;
     @Mock private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
-    @Mock private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    @Mock private ListarVendasUseCase listarVendasVendidasUseCase;
     @Mock private AlterarStatusVendasUseCase alterarStatusVendasUseCase;
 
     @InjectMocks private VendasController vendasController;

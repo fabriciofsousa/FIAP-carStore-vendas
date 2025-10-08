@@ -4,10 +4,9 @@ import br.com.fiap.vendas.config.GlobalExceptionHandler;
 import br.com.fiap.vendas.controller.vendas.VendasController;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
-import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
+import br.com.fiap.vendas.usecase.vendas.ListarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,7 +41,7 @@ class VendasControllerExceptionIT {
     private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
 
     @Autowired
-    private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    private ListarVendasUseCase listarVendasVendidasUseCase;
 
     @Autowired
     private AlterarStatusVendasUseCase alterarStatusVendasUseCase;
@@ -60,8 +59,8 @@ class VendasControllerExceptionIT {
         }
 
         @Bean
-        ListarVendasVendidasUseCase listarVendasVendidasUseCase() {
-            return Mockito.mock(ListarVendasVendidasUseCase.class);
+        ListarVendasUseCase listarVendasVendidasUseCase() {
+            return Mockito.mock(ListarVendasUseCase.class);
         }
 
         @Bean
