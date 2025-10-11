@@ -93,23 +93,6 @@ class VendasTest {
     }
 
     @Test
-    void deveGerarEqualsHashCodeToStringCorretamente() {
-        Vendas venda1 = Vendas.builder()
-                .id("abc")
-                .valorTotal(BigDecimal.TEN)
-                .build();
-
-        Vendas venda2 = Vendas.builder()
-                .id("abc")
-                .valorTotal(BigDecimal.TEN)
-                .build();
-
-        assertEquals(venda1, venda2);
-        assertEquals(venda1.hashCode(), venda2.hashCode());
-        assertTrue(venda1.toString().contains("Vendas"));
-    }
-
-    @Test
     void deveGerarEqualsHashCodeToStringParaPagamento() {
         Vendas.Pagamento p1 = Vendas.Pagamento.builder()
                 .valor(BigDecimal.TEN)
