@@ -4,6 +4,9 @@ import br.com.fiap.vendas.domain.Vendas;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,11 +15,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Document(collection = "vendas")
+@DynamoDbBean
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendasEntity {
+
+    public static final String TABLE_NAME = "carstore-vendas";
 
     @Id
     private UUID id;
@@ -29,6 +34,15 @@ public class VendasEntity {
 
     @Builder.Default
     private List<Vendas.Pagamento> pagamentos = new ArrayList<>();
+
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("venda_id")
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }
 
 

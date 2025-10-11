@@ -1,14 +1,7 @@
 spring:
   application:
     name: vendas
-  data:
-    mongodb:
-      uri: ${DB_URI}
-      host: ${DB_HOST}
-      port: ${DB_PORT}
-      database: ${DB_NAME}
-      username: ""
-      password: ""
+
   security:
     oauth2:
       client:
@@ -33,6 +26,15 @@ spring:
     logging:
       level:
         org.springframework.security: DEBUG
+
+aws:
+  region: us-east-1
+  profile: carstore
+  dynamodb:
+    table-name: carstore-vendas
+    region: us-east-1
+    endpoint: https://dynamodb.us-east-1.amazonaws.com
+
 cognito:
    user-pool-id: ${COGNITO_USER_POOL_ID}
    client-id: ${COGNITO_CLIENT_ID}

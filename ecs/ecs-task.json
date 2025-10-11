@@ -1,0 +1,39 @@
+{
+  "family": "carstore-vendas-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::797666780798:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::797666780798:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "carstore-service-vendas",
+      "image": "797666780798.dkr.ecr.us-east-1.amazonaws.com/carstore:veiculos-latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "COGNITO_CLIENT_ID", "value": "13f0vjhh1h7pg77ult8uv69vs5" },
+        { "name": "COGNITO_REGION", "value": "us-east-1" },
+        { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_IghpqsPls" },
+
+        { "name": "CLIENTE_API_URL", "value": "http://3.224.211.22:8080" },
+        { "name": "VEICULO_API_URL", "value": "http://18.206.39.19:8080" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/carstore-vendas",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
