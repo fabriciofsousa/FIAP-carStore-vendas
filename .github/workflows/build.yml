@@ -87,7 +87,7 @@ jobs:
             -Dsonar.projectKey=fabriciofsousa_FIAP-carStore-vendas \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=fabriciofsousa
+            -Dsonar.organization=fiapeats-test
 
 
   docker-build-push:
