@@ -29,7 +29,6 @@ spring:
 
 aws:
   region: us-east-1
-  profile: carstore
   dynamodb:
     table-name: carstore-vendas
     region: us-east-1
