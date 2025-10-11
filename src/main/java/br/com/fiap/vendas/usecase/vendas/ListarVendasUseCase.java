@@ -5,7 +5,7 @@ import br.com.fiap.vendas.infra.database.entity.Status;
 
 import java.util.List;
 
-public interface ListarVendasVendidasUseCase {
+public interface ListarVendasUseCase {
 
     List<Vendas> buscarVendidosOrdenadosPorPreco(Status status);
 }

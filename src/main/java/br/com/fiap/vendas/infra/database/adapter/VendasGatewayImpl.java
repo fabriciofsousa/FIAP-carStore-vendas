@@ -4,9 +4,10 @@ import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.gateway.VendasGateway;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.infra.database.entity.VendasEntity;
-import br.com.fiap.vendas.infra.database.repository.VendasRepository;
+import br.com.fiap.vendas.infra.database.repository.VendasDynamoRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,27 +16,27 @@ import java.util.stream.Collectors;
 @Component
 public class VendasGatewayImpl implements VendasGateway {
 
-    private final VendasRepository vendasRepository;
+    private final VendasDynamoRepository vendasDynamoRepository;
 
-    public VendasGatewayImpl(VendasRepository vendasRepository) {
-        this.vendasRepository = vendasRepository;
+    public VendasGatewayImpl(VendasDynamoRepository VendasDynamoRepository) {
+        this.vendasDynamoRepository = VendasDynamoRepository;
     }
 
     @Override
     public Vendas salvar(Vendas venda) {
         VendasEntity entity = toEntity(venda);
-        VendasEntity savedEntity = vendasRepository.save(entity);
+        VendasEntity savedEntity = vendasDynamoRepository.save(entity);
         return toDomain(savedEntity);
     }
 
     @Override
     public Optional<Vendas> buscarPorId(UUID id) {
-        return vendasRepository.findById(id).map(this::toDomain);
+        return vendasDynamoRepository.findById(id).map(this::toDomain);
     }
 
     @Override
     public List<Vendas> buscarVendidosOrdenadosPorPreco(Status status) {
-        return vendasRepository.findByStatusOrderByDataVendaAsc(status)
+        return vendasDynamoRepository.findByStatusOrderByDataVendaAsc(status)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
@@ -43,13 +44,13 @@ public class VendasGatewayImpl implements VendasGateway {
 
     @Override
     public Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId) {
-        return vendasRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
+        VendasEntity vendasEntity =  vendasDynamoRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
+        return vendasEntity != null ? toDomain(vendasEntity) : null;
     }
 
-
-    private VendasEntity toEntity(Vendas venda) {
+    private static VendasEntity toEntity(Vendas venda) {
         VendasEntity entity = new VendasEntity();
-        entity.setId(venda.getId() == null ? UUID.randomUUID() : venda.getId());
+        entity.setId(venda.getId() == null ? UUID.randomUUID().toString() : venda.getId());
         entity.setClienteId(venda.getClienteId());
         entity.setVeiculoId(venda.getVeiculoId());
         entity.setStatus(Status.valueOf(venda.getStatus().name()));
@@ -63,7 +64,8 @@ public class VendasGatewayImpl implements VendasGateway {
                 .id(entity.getId())
                 .clienteId(entity.getClienteId())
                 .veiculoId(entity.getVeiculoId())
-                .status(Status.valueOf(entity.getStatus().name()))
+                .status(entity.getStatus())
+                .pagamentos(entity.getPagamentos() != null ? new ArrayList<>(entity.getPagamentos()) : new ArrayList<>())
                 .dataVenda(entity.getDataVenda())
                 .build();
     }

@@ -4,7 +4,6 @@ import br.com.fiap.vendas.gateway.VendasGateway;
 import br.com.fiap.vendas.usecase.vendas.*;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,7 @@ public abstract class BaseIntegrationTest {
     @MockitoBean protected ObterAtualizarVeiculoUseCase obterAtualizarVeiculoUseCase;
     @MockitoBean protected CriarVendasUseCase criarVendasUseCase;
     @MockitoBean protected ObterVendasPorIdUseCase obterVendasPorIdUseCase;
-    @MockitoBean protected ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    @MockitoBean protected ListarVendasUseCase listarVendasVendidasUseCase;
     @MockitoBean protected AlterarStatusVendasUseCase alterarStatusVendasUseCase;
 
     @BeforeEach

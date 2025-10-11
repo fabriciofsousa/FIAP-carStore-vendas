@@ -14,19 +14,19 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class ListarVendasVendidasUseCaseImplTest {
+class ListarVendasUseCaseImplTest {
 
     @Mock
     private VendasGateway vendasGateway;
 
-    private ListarVendasVendidasUseCaseImpl useCase;
+    private ListarVendasUseCaseImpl useCase;
 
     private AutoCloseable mocks;
 
     @BeforeEach
     void setUp() {
         mocks = MockitoAnnotations.openMocks(this);
-        useCase = new ListarVendasVendidasUseCaseImpl(vendasGateway);
+        useCase = new ListarVendasUseCaseImpl(vendasGateway);
     }
 
     @AfterEach

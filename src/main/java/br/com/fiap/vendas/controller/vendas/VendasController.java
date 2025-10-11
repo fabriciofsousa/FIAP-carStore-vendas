@@ -7,7 +7,7 @@ import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
-import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
+import br.com.fiap.vendas.usecase.vendas.ListarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +21,12 @@ public class VendasController {
 
     private final CriarVendasUseCase criarVendasUseCase;
     private final ObterVendasPorIdUseCase obterVendasPorIdUseCase;
-    private final ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    private final ListarVendasUseCase listarVendasVendidasUseCase;
     private final AlterarStatusVendasUseCase alterarStatusVendasUseCase;
 
     public VendasController(CriarVendasUseCase criarVendasUseCase,
                             ObterVendasPorIdUseCase obterVendasPorIdUseCase,
-                            ListarVendasVendidasUseCase listarVendasVendidasUseCase, AlterarStatusVendasUseCase alterarStatusVendasUseCase) {
+                            ListarVendasUseCase listarVendasVendidasUseCase, AlterarStatusVendasUseCase alterarStatusVendasUseCase) {
         this.criarVendasUseCase = criarVendasUseCase;
         this.obterVendasPorIdUseCase = obterVendasPorIdUseCase;
         this.listarVendasVendidasUseCase = listarVendasVendidasUseCase;

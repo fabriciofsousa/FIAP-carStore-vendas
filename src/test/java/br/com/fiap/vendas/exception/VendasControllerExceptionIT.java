@@ -4,10 +4,9 @@ import br.com.fiap.vendas.config.GlobalExceptionHandler;
 import br.com.fiap.vendas.controller.vendas.VendasController;
 import br.com.fiap.vendas.usecase.vendas.AlterarStatusVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.CriarVendasUseCase;
-import br.com.fiap.vendas.usecase.vendas.ListarVendasVendidasUseCase;
+import br.com.fiap.vendas.usecase.vendas.ListarVendasUseCase;
 import br.com.fiap.vendas.usecase.vendas.ObterVendasPorIdUseCase;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,7 +26,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = VendasController.class)
+@WebMvcTest(
+        controllers = VendasController.class,
+        excludeAutoConfiguration = {
+                org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration.class,
+                org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration.class
+        }
+)
 @Import(GlobalExceptionHandler.class)
 @TestPropertySource(properties = "veiculo.api.url=http://localhost:8081")
 class VendasControllerExceptionIT {
@@ -42,7 +49,7 @@ class VendasControllerExceptionIT {
     private ObterVendasPorIdUseCase obterVendasPorIdUseCase;
 
     @Autowired
-    private ListarVendasVendidasUseCase listarVendasVendidasUseCase;
+    private ListarVendasUseCase listarVendasVendidasUseCase;
 
     @Autowired
     private AlterarStatusVendasUseCase alterarStatusVendasUseCase;
@@ -60,8 +67,8 @@ class VendasControllerExceptionIT {
         }
 
         @Bean
-        ListarVendasVendidasUseCase listarVendasVendidasUseCase() {
-            return Mockito.mock(ListarVendasVendidasUseCase.class);
+        ListarVendasUseCase listarVendasVendidasUseCase() {
+            return Mockito.mock(ListarVendasUseCase.class);
         }
 
         @Bean
