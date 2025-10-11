@@ -56,7 +56,7 @@ jobs:
           run: mvn clean verify -P integration-test -Dtest=*IT
   SonarQube:
     name: SonarQube
-    needs: [unit-tests, integration-tests, system-tests]
+    needs: [unit-tests, integration-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
