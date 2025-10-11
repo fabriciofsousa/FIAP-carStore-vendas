@@ -181,7 +181,6 @@ jobs:
         run: |
           aws ecs register-task-definition \
             --cli-input-json file://ecs/ecs-task.json
-
       - name: Update ECS service
         run: |
           aws ecs update-service \
