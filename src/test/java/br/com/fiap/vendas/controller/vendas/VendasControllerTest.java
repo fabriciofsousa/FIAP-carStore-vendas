@@ -59,7 +59,7 @@ class VendasControllerTest {
         );
 
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(UUID.randomUUID());
+        vendaMock.setId(UUID.randomUUID().toString());
         vendaMock.setClienteId(request.clienteId());
         vendaMock.setVeiculoId(request.veiculoId());
         vendaMock.setStatus(Status.INICIADA);
@@ -100,7 +100,7 @@ class VendasControllerTest {
     void deveObterVendaPorId() throws Exception {
         UUID vendaId = UUID.randomUUID();
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(vendaId);
+        vendaMock.setId(vendaId.toString());
         vendaMock.setClienteId(UUID.randomUUID());
         vendaMock.setVeiculoId(UUID.randomUUID());
         vendaMock.setStatus(Status.CONCLUIDA);
@@ -126,7 +126,7 @@ class VendasControllerTest {
     void deveAlterarStatusVenda() throws Exception {
         UUID vendaId = UUID.randomUUID();
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(vendaId);
+        vendaMock.setId(vendaId.toString());
         vendaMock.setStatus(Status.CONCLUIDA);
 
         when(alterarVendasUseCase.execute(vendaId, "CONCLUIDA")).thenReturn(vendaMock);

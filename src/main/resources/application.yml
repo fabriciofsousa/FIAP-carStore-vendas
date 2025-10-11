@@ -1,7 +1,13 @@
 spring:
   application:
     name: vendas
-
+  data:
+    mongodb:
+      auto-startup: false
+      uri: mongodb://disabled
+  devtools:
+    restart:
+      enabled: false
   security:
     oauth2:
       client:
@@ -22,7 +28,10 @@ spring:
       security:
         cognito:
           groups-claim: cognito:groups
-
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
     logging:
       level:
         org.springframework.security: DEBUG

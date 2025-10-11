@@ -2,8 +2,6 @@ package br.com.fiap.vendas.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
@@ -16,7 +14,8 @@ public class DynamoDbConfig {
     public DynamoDbClient dynamoDbClient() {
         return DynamoDbClient.builder()
                 .region(Region.US_EAST_1)
-                .credentialsProvider(DefaultCredentialsProvider.create())
+                //.credentialsProvider(DefaultCredentialsProvider.create())
+                .credentialsProvider(ProfileCredentialsProvider.create("carstore"))
                 .build();
     }
 

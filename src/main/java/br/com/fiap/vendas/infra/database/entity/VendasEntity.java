@@ -3,7 +3,6 @@ package br.com.fiap.vendas.infra.database.entity;
 import br.com.fiap.vendas.domain.Vendas;
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -24,7 +23,7 @@ public class VendasEntity {
     public static final String TABLE_NAME = "carstore-vendas";
 
     @Id
-    private UUID id;
+    private String id;
     private UUID clienteId;
     private UUID veiculoId;
     private BigDecimal valorTotal;
@@ -37,11 +36,12 @@ public class VendasEntity {
 
     @DynamoDbPartitionKey
     @DynamoDbAttribute("venda_id")
-    public UUID getId() {
-        return id;
+    public String getId() {
+        return id.toString(); // converte UUID para String
     }
-    public void setId(UUID id) {
-        this.id = id;
+
+    public void setId(String id) {
+        this.id = id; // converte String de volta para UUID
     }
 }
 

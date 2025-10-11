@@ -26,7 +26,7 @@ public class VendasMapper {
                 .build();
 
         return Vendas.builder()
-                .id(UUID.randomUUID())
+                .id(UUID.randomUUID().toString())
                 .clienteId(dto.clienteId())
                 .veiculoId(dto.veiculoId())
                 .valorTotal(dto.valorPago())

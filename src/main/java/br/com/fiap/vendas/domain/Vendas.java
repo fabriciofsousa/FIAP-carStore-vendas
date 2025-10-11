@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Vendas {
 
-    private UUID id;
+    private String id;
     private UUID veiculoId;
     private UUID clienteId;
 

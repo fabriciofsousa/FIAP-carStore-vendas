@@ -50,7 +50,7 @@ public class VendasGatewayImpl implements VendasGateway {
 
     private static VendasEntity toEntity(Vendas venda) {
         VendasEntity entity = new VendasEntity();
-        entity.setId(venda.getId() == null ? UUID.randomUUID() : venda.getId());
+        entity.setId(venda.getId() == null ? UUID.randomUUID().toString() : venda.getId());
         entity.setClienteId(venda.getClienteId());
         entity.setVeiculoId(venda.getVeiculoId());
         entity.setStatus(Status.valueOf(venda.getStatus().name()));

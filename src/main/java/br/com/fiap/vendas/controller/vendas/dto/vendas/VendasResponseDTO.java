@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record VendasResponseDTO(
-        UUID id,
+        String id,
         UUID clienteId,
         UUID veiculoId,
         String status,

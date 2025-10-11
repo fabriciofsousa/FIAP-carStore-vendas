@@ -38,7 +38,7 @@ class AlterarStatusVendasUseCaseImplTest {
         // Arrange
         UUID id = UUID.randomUUID();
         Vendas venda = new Vendas();
-        venda.setId(id);
+        venda.setId(id.toString());
         venda.setStatus(Status.INICIADA);
 
         when(vendasGateway.buscarPorId(id)).thenReturn(Optional.of(venda));
@@ -74,7 +74,7 @@ class AlterarStatusVendasUseCaseImplTest {
         // Arrange
         UUID id = UUID.randomUUID();
         Vendas venda = new Vendas();
-        venda.setId(id);
+        venda.setId(id.toString());
         venda.setStatus(Status.INICIADA);
 
         when(vendasGateway.buscarPorId(id)).thenReturn(Optional.of(venda));

@@ -37,7 +37,7 @@ class VendasGatewayImplTest {
                 .build();
 
         VendasEntity savedEntity = new VendasEntity();
-        savedEntity.setId(venda.getId() != null ? venda.getId() : UUID.randomUUID());
+        savedEntity.setId(venda.getId() != null ? venda.getId() : UUID.randomUUID().toString());
         savedEntity.setClienteId(venda.getClienteId());
         savedEntity.setVeiculoId(venda.getVeiculoId());
         savedEntity.setStatus(Status.INICIADA);
@@ -56,7 +56,7 @@ class VendasGatewayImplTest {
     void buscarPorId_deveRetornarVendaQuandoEncontrada() {
         UUID id = UUID.randomUUID();
         VendasEntity entity = new VendasEntity();
-        entity.setId(id);
+        entity.setId(id.toString());
         entity.setClienteId(UUID.randomUUID());
         entity.setVeiculoId(UUID.randomUUID());
         entity.setStatus(Status.CONCLUIDA);
@@ -85,11 +85,11 @@ class VendasGatewayImplTest {
     @Test
     void buscarVendidosOrdenadosPorPreco_deveRetornarListaDeVendas() {
         VendasEntity entity1 = new VendasEntity();
-        entity1.setId(UUID.randomUUID());
+        entity1.setId(UUID.randomUUID().toString());
         entity1.setStatus(Status.CONCLUIDA);
 
         VendasEntity entity2 = new VendasEntity();
-        entity2.setId(UUID.randomUUID());
+        entity2.setId(UUID.randomUUID().toString());
         entity2.setStatus(Status.CONCLUIDA);
 
         when(VendasDynamoRepository.findByStatusOrderByDataVendaAsc(Status.CONCLUIDA))
@@ -106,6 +106,7 @@ class VendasGatewayImplTest {
     void buscarVendaIniciadaPorVeiculo_deveRetornarVendaQuandoExistir() {
         UUID veiculoId = UUID.randomUUID();
         VendasEntity entity = new VendasEntity();
+        entity.setId(UUID.randomUUID().toString());
         entity.setVeiculoId(veiculoId);
         entity.setStatus(Status.INICIADA);
 

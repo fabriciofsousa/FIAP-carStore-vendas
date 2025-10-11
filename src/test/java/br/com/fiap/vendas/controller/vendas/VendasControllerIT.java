@@ -75,7 +75,7 @@ public class VendasControllerIT extends BaseIntegrationTest {
         );
 
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(UUID.randomUUID());
+        vendaMock.setId(UUID.randomUUID().toString());
         vendaMock.setClienteId(request.clienteId());
         vendaMock.setVeiculoId(request.veiculoId());
         vendaMock.setStatus(Status.INICIADA);
@@ -123,7 +123,7 @@ public class VendasControllerIT extends BaseIntegrationTest {
     void deveBuscarVendaPorId() {
         UUID vendaId = UUID.randomUUID();
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(vendaId);
+        vendaMock.setId(vendaId.toString());
         vendaMock.setClienteId(UUID.randomUUID());
         vendaMock.setVeiculoId(UUID.randomUUID());
         vendaMock.setStatus(Status.CONCLUIDA);
@@ -156,11 +156,11 @@ public class VendasControllerIT extends BaseIntegrationTest {
     @Test
     void deveListarVendasVendidas() {
         Vendas venda1 = new Vendas();
-        venda1.setId(UUID.randomUUID());
+        venda1.setId(UUID.randomUUID().toString());
         venda1.setStatus(Status.CONCLUIDA);
 
         Vendas venda2 = new Vendas();
-        venda2.setId(UUID.randomUUID());
+        venda2.setId(UUID.randomUUID().toString());
         venda2.setStatus(Status.CONCLUIDA);
 
         when(listarVendasVendidasUseCase.buscarVendidosOrdenadosPorPreco(Status.CONCLUIDA)).thenReturn(List.of(venda1, venda2));
@@ -178,7 +178,7 @@ public class VendasControllerIT extends BaseIntegrationTest {
     void deveAlterarStatusVenda() {
         UUID vendaId = UUID.randomUUID();
         Vendas vendaMock = new Vendas();
-        vendaMock.setId(vendaId);
+        vendaMock.setId(vendaId.toString());
         vendaMock.setStatus(Status.CONCLUIDA);
 
         when(alterarStatusVendasUseCase.execute(vendaId, "CONCLUIDA")).thenReturn(vendaMock);
