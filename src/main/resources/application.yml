@@ -38,6 +38,9 @@ cognito:
    user-pool-id: ${COGNITO_USER_POOL_ID}
    client-id: ${COGNITO_CLIENT_ID}
    region: ${COGNITO_REGION}
+   auth-url: https://cognito-idp.us-east-1.amazonaws.com/
+   username: ${COGNITO_USER_EMAIL}
+   password: ${COGNITO_USER_PASSWORD}
 
 veiculo:
   api:
