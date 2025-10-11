@@ -11,6 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    public static final String VENDAS = "/vendas/**";
+    public static final String ADMIN = "ADMIN";
     private final CognitoJwtAuthenticationConverter cognitoJwtAuthConverter;
 
     public SecurityConfig(CognitoJwtAuthenticationConverter cognitoJwtAuthConverter) {
@@ -27,9 +29,9 @@ public class SecurityConfig {
                                 "/swagger-resources", "/configuration/ui", "/configuration/security",
                                 "/webjars/**", "/favicon.ico", "/error").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/vendas/**").hasAnyAuthority("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/vendas/**").hasAnyAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/vendas/**").hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, VENDAS).hasAnyAuthority("USER", ADMIN)
+                        .requestMatchers(HttpMethod.PATCH, VENDAS).hasAnyAuthority(ADMIN)
+                        .requestMatchers(HttpMethod.GET, VENDAS).hasAnyAuthority("USER", ADMIN)
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

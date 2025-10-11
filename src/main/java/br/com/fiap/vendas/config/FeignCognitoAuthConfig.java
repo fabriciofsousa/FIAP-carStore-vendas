@@ -2,16 +2,15 @@ package br.com.fiap.vendas.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.*;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.client.RestTemplate;
-import java.util.Map;
+
+import java.util.logging.Logger;
 
 @Configuration
 public class FeignCognitoAuthConfig implements RequestInterceptor{
+
+    Logger logger = Logger.getLogger(FeignCognitoAuthConfig.class.getName());
 
     @Override
     public void apply(RequestTemplate template) {
@@ -21,7 +20,7 @@ public class FeignCognitoAuthConfig implements RequestInterceptor{
             String token = jwt.getTokenValue();
             template.header("Authorization", "Bearer " + token);
         } else {
-            System.out.println("Nenhum token JWT encontrado no contexto.");
+            logger.severe("Nenhum token JWT encontrado no contexto.");
         }
     }
 }

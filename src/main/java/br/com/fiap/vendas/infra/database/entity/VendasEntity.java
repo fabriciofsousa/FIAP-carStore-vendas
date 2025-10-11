@@ -37,7 +37,7 @@ public class VendasEntity {
     @DynamoDbPartitionKey
     @DynamoDbAttribute("venda_id")
     public String getId() {
-        return id.toString(); // converte UUID para String
+        return id; // converte UUID para String
     }
 
     public void setId(String id) {

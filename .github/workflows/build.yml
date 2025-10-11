@@ -56,86 +56,38 @@ jobs:
           run: mvn clean verify -P integration-test -Dtest=*IT
   SonarQube:
     name: SonarQube
-    needs: [unit-tests, integration-tests]
+    needs: [ unit-tests, integration-tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Necessário para SonarCloud
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
-      # 1. Rodar todos os testes com JaCoCo ativado
-      - name: Run all tests (unit, integration, system, performance)
-        run: mvn clean verify -P integration-test,system-test,performance-test
-
-      # 2. Gerar o relatório JaCoCo
-      - name: Generate JaCoCo coverage report
-        run: mvn jacoco:report
-
-      # 3. Exibir resumo de cobertura no log
-      - name: Print test coverage to log
-        run: |
-          echo "=== Coverage Summary (jacoco.csv) ==="
-          COVERAGE_FILE=target/site/jacoco/jacoco.csv
-          if [ -f "$COVERAGE_FILE" ]; then
-            cat "$COVERAGE_FILE"
-          else
-            echo "Coverage report not found at $COVERAGE_FILE"
-          fi
-
-      # 4. Publicar o relatório como artefato (opcional)
-      - name: Upload JaCoCo report
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: target/site/jacoco/
-
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
+      - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fabriciofsousa_FIAP-carStore-vendas
-      - name: Fetch SonarCloud Quality Gate
+
+      - name: Build, test and analyze with Sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          echo "=== SonarCloud Quality Gate Status ==="
-          response=$(curl -s -u $SONAR_TOKEN: \
-            "https://sonarcloud.io/api/qualitygates/project_status?projectKey=fabriciofsousa_FIAP-carStore-vendas")
-          
-          status=$(echo $response | jq -r '.projectStatus.status')
-          echo "Quality Gate: $status"
-          
-          if [ "$status" = "ERROR" ]; then
-            echo "❌ Build failed due to Sonar Quality Gate"
-            exit 1
-          else
-            echo "✅ Build passed Sonar Quality Gate"
-          fi
+          mvn clean verify \
+            org.jacoco:jacoco-maven-plugin:report \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=fabriciofsousa_FIAP-carStore-vendas \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=fabriciofsousa
 
 
   docker-build-push:

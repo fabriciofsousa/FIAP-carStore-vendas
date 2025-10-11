@@ -16,27 +16,27 @@ import java.util.stream.Collectors;
 @Component
 public class VendasGatewayImpl implements VendasGateway {
 
-    private final VendasDynamoRepository VendasDynamoRepository;
+    private final VendasDynamoRepository vendasDynamoRepository;
 
     public VendasGatewayImpl(VendasDynamoRepository VendasDynamoRepository) {
-        this.VendasDynamoRepository = VendasDynamoRepository;
+        this.vendasDynamoRepository = VendasDynamoRepository;
     }
 
     @Override
     public Vendas salvar(Vendas venda) {
         VendasEntity entity = toEntity(venda);
-        VendasEntity savedEntity = VendasDynamoRepository.save(entity);
+        VendasEntity savedEntity = vendasDynamoRepository.save(entity);
         return toDomain(savedEntity);
     }
 
     @Override
     public Optional<Vendas> buscarPorId(UUID id) {
-        return VendasDynamoRepository.findById(id).map(this::toDomain);
+        return vendasDynamoRepository.findById(id).map(this::toDomain);
     }
 
     @Override
     public List<Vendas> buscarVendidosOrdenadosPorPreco(Status status) {
-        return VendasDynamoRepository.findByStatusOrderByDataVendaAsc(status)
+        return vendasDynamoRepository.findByStatusOrderByDataVendaAsc(status)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
@@ -44,7 +44,7 @@ public class VendasGatewayImpl implements VendasGateway {
 
     @Override
     public Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId) {
-        VendasEntity vendasEntity =  VendasDynamoRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
+        VendasEntity vendasEntity =  vendasDynamoRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
         return vendasEntity != null ? toDomain(vendasEntity) : null;
     }
 

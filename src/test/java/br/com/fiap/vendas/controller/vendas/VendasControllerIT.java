@@ -1,25 +1,18 @@
 package br.com.fiap.vendas.controller.vendas;
 
-import br.com.fiap.vendas.config.SecurityConfig;
-import br.com.fiap.vendas.config.TestSecurityConfig;
 import br.com.fiap.vendas.controller.vendas.dto.vendas.VendasRequestDTO;
-import br.com.fiap.vendas.gateway.ClienteGateway;
+import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.infra.database.entity.FormaPagamento;
 import br.com.fiap.vendas.infra.database.entity.Status;
-import br.com.fiap.vendas.domain.Vendas;
-import br.com.fiap.vendas.usecase.ObterClienteUseCaseImpl;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.ActiveProfiles;
@@ -33,6 +26,7 @@ import java.util.UUID;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(
