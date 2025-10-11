@@ -9,7 +9,7 @@
   "containerDefinitions": [
     {
       "name": "carstore-service-vendas",
-      "image": "797666780798.dkr.ecr.us-east-1.amazonaws.com/carstore:veiculos-latest",
+      "image": "797666780798.dkr.ecr.us-east-1.amazonaws.com/carstore:vendas-latest",
       "essential": true,
       "portMappings": [
         {
