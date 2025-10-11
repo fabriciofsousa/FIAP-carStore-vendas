@@ -23,11 +23,11 @@
         { "name": "COGNITO_REGION", "value": "us-east-1" },
         { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_zV9ZTahOx" },
 
-        { "name": "CLIENTE_API_URL", "value": "http://3.224.211.22:8080" },
-        { "name": "VEICULO_API_URL", "value": "http://18.206.39.19:8080" },
+        { "name": "CLIENTE_API_URL", "value": "http://3.235.250.77:8080" },
+        { "name": "VEICULO_API_URL", "value": "http://13.222.96.17:8080" },
 
-        { "name": "COGNITO_USER_EMAIL", "value": "systemUser@fiap.com" },
-        { "name": "COGNITO_USER_PASSWORD", "value": "B!2d1Z0>VBep" },
+        { "name": "COGNITO_USER_EMAIL", "value": "systemUser@email.com" },
+        { "name": "COGNITO_USER_PASSWORD", "value": "-D0{EgPpbu;L" },
         { "name": "COGNITO_AUTH_URL", "value": "https://cognito-idp.us-east-1.amazonaws.com/AuthenticationResult/AccessToken" }
       ],
       "logConfiguration": {

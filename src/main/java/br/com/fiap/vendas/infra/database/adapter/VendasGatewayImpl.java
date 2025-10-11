@@ -7,6 +7,7 @@ import br.com.fiap.vendas.infra.database.entity.VendasEntity;
 import br.com.fiap.vendas.infra.database.repository.VendasDynamoRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,7 +48,6 @@ public class VendasGatewayImpl implements VendasGateway {
         return vendasEntity != null ? toDomain(vendasEntity) : null;
     }
 
-
     private static VendasEntity toEntity(Vendas venda) {
         VendasEntity entity = new VendasEntity();
         entity.setId(venda.getId() == null ? UUID.randomUUID().toString() : venda.getId());
@@ -64,7 +64,8 @@ public class VendasGatewayImpl implements VendasGateway {
                 .id(entity.getId())
                 .clienteId(entity.getClienteId())
                 .veiculoId(entity.getVeiculoId())
-                .status(Status.valueOf(entity.getStatus().name()))
+                .status(entity.getStatus())
+                .pagamentos(entity.getPagamentos() != null ? new ArrayList<>(entity.getPagamentos()) : new ArrayList<>())
                 .dataVenda(entity.getDataVenda())
                 .build();
     }
