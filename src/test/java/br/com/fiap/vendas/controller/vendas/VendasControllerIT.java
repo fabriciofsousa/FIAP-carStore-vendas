@@ -39,7 +39,12 @@ import static org.mockito.Mockito.*;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = {
                 "CLIENTE_API_URL=localhost:8082",
-                "veiculo.api.url=localhost:8081"
+                "veiculo.api.url=localhost:8081",
+                "COGNITO_USER_EMAIL=test",
+                "COGNITO_USER_PASSWORD=test",
+                "cognito.auth.url=http://localhost:8080/auth",
+                "cognito.client.id=meu-client-id",
+                "cognito.client.secret=meu-client-secret"
         }
 )
 @ActiveProfiles("test")
