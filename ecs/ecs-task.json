@@ -19,12 +19,12 @@
         }
       ],
       "environment": [
-        { "name": "COGNITO_CLIENT_ID", "value": "6qkenoi25edom3tr9k5ar2eni0" },
+        { "name": "COGNITO_CLIENT_ID", "value": "7llcjej1iahhmvdeu5c46raigh" },
         { "name": "COGNITO_REGION", "value": "us-east-1" },
-        { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_zV9ZTahOx" },
+        { "name": "COGNITO_USER_POOL_ID", "value": "us-east-1_RD6ZrZn9R" },
 
-        { "name": "CLIENTE_API_URL", "value": "http://3.235.250.77:8080" },
-        { "name": "VEICULO_API_URL", "value": "http://13.222.96.17:8080" },
+        { "name": "CLIENTE_API_URL", "value": "http://3.237.237.214:8080" },
+        { "name": "VEICULO_API_URL", "value": "http://13.222.237.186:8080" },
 
         { "name": "COGNITO_USER_EMAIL", "value": "systemUser@email.com" },
         { "name": "COGNITO_USER_PASSWORD", "value": "-D0{EgPpbu;L" },
