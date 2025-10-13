@@ -4,7 +4,8 @@ import br.com.fiap.vendas.domain.Vendas;
 import br.com.fiap.vendas.gateway.VendasGateway;
 import br.com.fiap.vendas.infra.database.entity.Status;
 import br.com.fiap.vendas.infra.database.entity.VendasEntity;
-import br.com.fiap.vendas.infra.database.repository.VendasDynamoRepository;
+import br.com.fiap.vendas.infra.database.repository.VendasMongoRepository;
+import br.com.fiap.vendas.infra.database.repository.VendasMongoRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,27 +17,27 @@ import java.util.stream.Collectors;
 @Component
 public class VendasGatewayImpl implements VendasGateway {
 
-    private final VendasDynamoRepository vendasDynamoRepository;
+    private final VendasMongoRepository VendasMongoRepository;
 
-    public VendasGatewayImpl(VendasDynamoRepository VendasDynamoRepository) {
-        this.vendasDynamoRepository = VendasDynamoRepository;
+    public VendasGatewayImpl(VendasMongoRepository VendasMongoRepository) {
+        this.VendasMongoRepository = VendasMongoRepository;
     }
 
     @Override
     public Vendas salvar(Vendas venda) {
         VendasEntity entity = toEntity(venda);
-        VendasEntity savedEntity = vendasDynamoRepository.save(entity);
+        VendasEntity savedEntity = VendasMongoRepository.save(entity);
         return toDomain(savedEntity);
     }
 
     @Override
     public Optional<Vendas> buscarPorId(UUID id) {
-        return vendasDynamoRepository.findById(id).map(this::toDomain);
+        return VendasMongoRepository.findById(String.valueOf(id)).map(this::toDomain);
     }
 
     @Override
     public List<Vendas> buscarVendidosOrdenadosPorPreco(Status status) {
-        return vendasDynamoRepository.findByStatusOrderByDataVendaAsc(status)
+        return VendasMongoRepository.findByStatusOrderByDataVendaAsc(status)
                 .stream()
                 .map(this::toDomain)
                 .collect(Collectors.toList());
@@ -44,7 +45,7 @@ public class VendasGatewayImpl implements VendasGateway {
 
     @Override
     public Vendas buscarVendaIniciadaPorVeiculo(UUID veiculoId) {
-        VendasEntity vendasEntity =  vendasDynamoRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
+        VendasEntity vendasEntity =  VendasMongoRepository.findByVeiculoIdAndStatus(veiculoId, Status.INICIADA).orElse(null);
         return vendasEntity != null ? toDomain(vendasEntity) : null;
     }
 

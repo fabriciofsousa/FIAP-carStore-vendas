@@ -3,53 +3,15 @@ spring:
     name: vendas
   data:
     mongodb:
-      auto-startup: false
-      uri: mongodb://disabled
+      uri: mongodb://localhost:27017/vendas_db
   devtools:
     restart:
       enabled: false
-  security:
-    oauth2:
-      client:
-        registration:
-          cognito:
-            client-id: ${COGNITO_CLIENT_ID}
-            scope: openid
-            redirect-uri: "{baseUrl}/login/oauth2/code/cognito"
-            client-name: Cognito
-            authorization-grant-type: authorization_code
-        provider:
-          cognito:
-            issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/${COGNITO_USER_POOL_ID}
-      resourceserver:
-        jwt:
-          issuer-uri: https://cognito-idp.us-east-1.amazonaws.com/${COGNITO_USER_POOL_ID}
-    app:
-      security:
-        cognito:
-          groups-claim: cognito:groups
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
-      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
-    logging:
+
+  logging:
       level:
         org.springframework.security: DEBUG
 
-aws:
-  region: us-east-1
-  dynamodb:
-    table-name: carstore-vendas
-    region: us-east-1
-    endpoint: https://dynamodb.us-east-1.amazonaws.com
-
-cognito:
-   user-pool-id: ${COGNITO_USER_POOL_ID}
-   client-id: ${COGNITO_CLIENT_ID}
-   region: ${COGNITO_REGION}
-   auth-url: https://cognito-idp.us-east-1.amazonaws.com/
-   username: ${COGNITO_USER_EMAIL}
-   password: ${COGNITO_USER_PASSWORD}
 
 veiculo:
   api:

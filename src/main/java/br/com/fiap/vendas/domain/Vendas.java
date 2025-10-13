@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,7 +39,6 @@ public class Vendas {
     private LocalDateTime dataVenda = LocalDateTime.now();
 
     @Data
-    @DynamoDbBean
     @AllArgsConstructor
     @Builder
     @NoArgsConstructor
@@ -50,17 +47,14 @@ public class Vendas {
         private FormaPagamento formaPagamento;
         private LocalDateTime dataPagamento;
 
-        @DynamoDbAttribute("valor")
         public BigDecimal getValor() { return valor; }
         public void setValor(BigDecimal valor) { this.valor = valor; }
 
-        @DynamoDbAttribute("formaPagamento")
         public FormaPagamento getFormaPagamento() { return formaPagamento; }
         public void setFormaPagamento(FormaPagamento formaPagamento) {
             this.formaPagamento = formaPagamento;
         }
 
-        @DynamoDbAttribute("dataPagamento")
         public LocalDateTime getDataPagamento() { return dataPagamento; }
         public void setDataPagamento(LocalDateTime dataPagamento) {
             this.dataPagamento = dataPagamento;
